@@ -7,17 +7,6 @@
             void SendMessage(string content);
         }
 
-        public abstract class Message
-        {
-            protected IMessageSender _messageSender;
-            public Message(IMessageSender messageSender)
-            {
-                _messageSender = messageSender;
-            }
-
-            public abstract void Send(string content);
-        }
-
         public class EmailSender : IMessageSender
         {
             public void SendMessage(string content)
@@ -34,6 +23,18 @@
             }
         }
 
+        public abstract class Message
+        {
+            protected IMessageSender _messageSender;
+            public Message(IMessageSender messageSender)
+            {
+                _messageSender = messageSender;
+            }
+
+            public abstract void Send(string content);
+        }
+
+
         public class ShortMessage : Message
         {
             public ShortMessage(IMessageSender messageSender) : base(messageSender)
@@ -44,7 +45,6 @@
             {
                 if (content.Length <= 10)
                 {
-                    // Console.WriteLine($"Sending short SMS with content {content}")
                     _messageSender.SendMessage(content);
                 }
                 else
@@ -58,7 +58,6 @@
         {
             public LongMessage(IMessageSender messageSender) : base(messageSender)
             {
-                
             }
 
             public override void Send(string content)

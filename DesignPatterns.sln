@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObserverPattern", "Observer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgePattern", "BridgePattern\BridgePattern.csproj", "{B36F9965-C09C-4C48-953B-0A4844622915}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositePattern", "CompositePattern\CompositePattern.csproj", "{5066544D-D256-4FAC-8342-13149FBE6998}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediator", "Mediator\Mediator.csproj", "{8D3C867A-78D2-49D0-B1CE-D9DE5AD1CDDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{B36F9965-C09C-4C48-953B-0A4844622915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B36F9965-C09C-4C48-953B-0A4844622915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B36F9965-C09C-4C48-953B-0A4844622915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5066544D-D256-4FAC-8342-13149FBE6998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5066544D-D256-4FAC-8342-13149FBE6998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5066544D-D256-4FAC-8342-13149FBE6998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5066544D-D256-4FAC-8342-13149FBE6998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D3C867A-78D2-49D0-B1CE-D9DE5AD1CDDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3C867A-78D2-49D0-B1CE-D9DE5AD1CDDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3C867A-78D2-49D0-B1CE-D9DE5AD1CDDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3C867A-78D2-49D0-B1CE-D9DE5AD1CDDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

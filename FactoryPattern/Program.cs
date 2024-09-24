@@ -49,10 +49,13 @@
                 {
                     case "Gold":
                         return new GoldCreditCard();
+
                     case "Platinum":
                         return new PlatinumCeditCard();
                     case "Titanium":
+
                         return new TitaniumCreditCard();
+
                     default:
                         throw new ApplicationException($"Card type {cardType} is not recognized.");
                 }

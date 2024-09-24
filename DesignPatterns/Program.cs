@@ -1,63 +1,57 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace RefactoringGuru.DesignPatterns.Strategy.Conceptual
 {
-    class Context
+    abstract class SortStrategy
     {
-        private IStrategy _strategy;
+        public abstract void Sort(ArrayList list);
+    }
 
-        public Context()
-        { }
-        public Context(IStrategy strategy)
+    class QuickSort : SortStrategy
+    {
+        public override void Sort(ArrayList list)
         {
-            this._strategy = strategy;
-        }
-
-        public void SetStrategy(IStrategy strategy)
-        {
-            this._strategy = strategy;
-        }
-
-        public void DoSomeBusinessLogic()
-        {
-            Console.WriteLine("Context: Sorting data using the strategy (not sure how it'll do it)");
-            var result = this._strategy.DoAlgorithm(new List<string> { "a", "b", "c", "d", "e" });
-
-            string resultStr = string.Empty;
-            foreach (var element in result as List<string>)
-            {
-                resultStr += element + ",";
-            }
-
-            Console.WriteLine(resultStr);
+            // الگوریتم مربوطه
+            Console.WriteLine("This is Quick Sort");
         }
     }
 
-    public interface IStrategy
+    class ShellSort : SortStrategy
     {
-        object DoAlgorithm(object data);
-    }
-    class ConcreteStrategyA : IStrategy
-    {
-        public object DoAlgorithm(object data)
+        public override void Sort(ArrayList list)
         {
-            var list = data as List<string>;
-            list.Sort();
-
-            return list;
+            // الگوریتم مربوطه
+            Console.WriteLine("This is Shell Sort");
         }
     }
 
-    class ConcreteStrategyB : IStrategy
+    class MergeSort : SortStrategy
     {
-        public object DoAlgorithm(object data)
+        public override void Sort(ArrayList list)
         {
-            var list = data as List<string>;
-            list.Sort();
-            list.Reverse();
+            // الگوریتم مربوطه
+            Console.WriteLine("This is Merge Sort");
+        }
+    }
 
-            return list;
+    class SortedListContext
+    {
+        private ArrayList list = new ArrayList();
+        private SortStrategy sortstrategy;
+
+        public void SetSortStrategy(SortStrategy sortstrategy)
+        {
+            this.sortstrategy = sortstrategy;
+        }
+        public void Add(string name)
+        {
+            list.Add(name);
+        }
+        public void Sort()
+        {
+            sortstrategy.Sort(list);
         }
     }
 
@@ -65,17 +59,13 @@ namespace RefactoringGuru.DesignPatterns.Strategy.Conceptual
     {
         static void Main(string[] args)
         {
-            var context = new Context();
+            var context = new SortedListContext();
 
-            Console.WriteLine("Client: Strategy is set to normal sorting.");
-            context.SetStrategy(new ConcreteStrategyA());
-            context.DoSomeBusinessLogic();
+            context.SetSortStrategy(new QuickSort());
+            context.Sort();
 
-            Console.WriteLine();
-
-            Console.WriteLine("Client: Strategy is set to reverse sorting.");
-            context.SetStrategy(new ConcreteStrategyB());
-            context.DoSomeBusinessLogic();
+            context.SetSortStrategy(new MergeSort());
+            context.Sort();
         }
     }
 }
