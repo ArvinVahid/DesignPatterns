@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFactory", "Abstract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewBridge", "NewBridge\NewBridge.csproj", "{49E1314B-9359-4456-9ABB-0B56161B2DDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestObs", "TestObs\TestObs.csproj", "{BA7EC21B-3F97-42CE-B7F6-82028A6778CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{49E1314B-9359-4456-9ABB-0B56161B2DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49E1314B-9359-4456-9ABB-0B56161B2DDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49E1314B-9359-4456-9ABB-0B56161B2DDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA7EC21B-3F97-42CE-B7F6-82028A6778CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA7EC21B-3F97-42CE-B7F6-82028A6778CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA7EC21B-3F97-42CE-B7F6-82028A6778CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA7EC21B-3F97-42CE-B7F6-82028A6778CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
