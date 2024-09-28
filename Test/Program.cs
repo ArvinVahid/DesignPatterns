@@ -4,93 +4,45 @@ class Program
 {
     static void Main(string[] args)
     {
-        GroupChatMediator mediator = new GroupChatMediator();
-        
-        GroupChat gp1 = new GroupChat("Group chat 1");
-        GroupChat gp2 = new GroupChat("Group chat 2");
-
-        User user1 = new User("Arvin");
-        User user2 = new User("Shahram");
-        User user3 = new User("Mohammad");
-        
-        user1.JoinGroupChat(gp1, mediator);
-        user2.JoinGroupChat(gp1, mediator);
-        user2.JoinGroupChat(gp2, mediator);
-        user3.JoinGroupChat(gp2, mediator);
-        
-        user1.SendMessageGroupChat(gp1, mediator, "Salam");
-        user2.SendMessageGroupChat(gp1, mediator, "Hello");
+        SortStrategy s = new SortStrategy(new MergeSort());
     }
 
-    public class GroupChatMediator : IChatGroup
+    public class SortStrategy
     {
-        public void AddUser(User user, GroupChat groupChat)
+        private readonly ISort _sort;
+        public SortStrategy(ISort sort)
         {
-            groupChat.AddUser(user);
+            _sort = sort;
         }
 
-        public void SendMessage(User user, GroupChat groupChat, string message)
+        public void Sort()
         {
-            groupChat.SendMessage(user, message);
+            _sort.Sort();
         }
     }
     
-    public interface IChatGroup
+    #region Sort Encapsulate
+
+    public interface ISort
     {
-        void AddUser(User user, GroupChat groupChat);
-        
-        //kodom user to kodom chat mikhad che messagi ro befreste?
-        void SendMessage(User user, GroupChat groupChat, string message);
+        void Sort();
     }
     
-    public class User
+    public class QuickSort : ISort
     {
-        private string _name;
-        private List<GroupChat> _groupChats = new List<GroupChat>();
-        public User(string name)
+        public void Sort()
         {
-            _name = name;
+            Console.WriteLine("Quick");
         }
-
-        public void JoinGroupChat(GroupChat groupChat, IChatGroup mediator)
+    }
+    
+    public class MergeSort : ISort
+    {
+        public void Sort()
         {
-            mediator.AddUser(this, groupChat);
-        }
-
-        public void SendMessageGroupChat(GroupChat groupChat, IChatGroup mediator, string message)
-        {
-            mediator.SendMessage(this,groupChat, message);
-        }
-
-        public void ReceiveMessage(string message)
-        {
-            Console.WriteLine($"{_name} received {message}");
+            Console.WriteLine("Merge");
         }
     }
 
-    public class GroupChat
-    {
-        private string _name;
-        private List<User> _users = new List<User>();
-        public GroupChat(string name)
-        {
-            _name = name;
-        }
-        public void AddUser(User user)
-        {
-            _users.Add(user);
-        }
-
-        //baraye ki che chizi ersal she
-        public void SendMessage(User user, string message)
-        {
-            foreach (var u in _users)
-            {
-                if (u != user)
-                {
-                    u.ReceiveMessage(message);
-                }
-            }
-        }
-    }
+    #endregion
 }
