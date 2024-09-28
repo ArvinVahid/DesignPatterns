@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Observer", "Observer\Observ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandPattern", "CommandPattern\CommandPattern.csproj", "{088F690B-6EB1-45A4-82C5-024DA275C52B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0978D3E5-830D-4D8E-A9BC-5DDA8D3BC3C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckStrategy", "DuckStrategy\DuckStrategy.csproj", "{0978D3E5-830D-4D8E-A9BC-5DDA8D3BC3C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFactory", "AbstractFactory\AbstractFactory.csproj", "{882B745F-6870-4F09-B3E6-15461BAB227C}"
 EndProject
