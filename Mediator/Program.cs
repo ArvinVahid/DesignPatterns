@@ -2,83 +2,99 @@
 {
     internal class Program
     {
-        public interface IChatRoomMediator
+        static void Main(string[] args)
         {
-            void SendMessage(string message, User user);
+            GroupChatMediator mediator = new GroupChatMediator();
+
+            GroupChat gp1 = new GroupChat("Group chat 1");
+            GroupChat gp2 = new GroupChat("Group chat 2");
+
+            User user1 = new User("Arvin");
+            User user2 = new User("Shahram");
+            User user3 = new User("Mohammad");
+
+            user1.JoinGroupChat(gp1, mediator);
+            user2.JoinGroupChat(gp1, mediator);
+            user2.JoinGroupChat(gp2, mediator);
+            user3.JoinGroupChat(gp2, mediator);
+
+            user1.SendMessageGroupChat(gp1, mediator, "Salam");
+            user2.SendMessageGroupChat(gp1, mediator, "Hello");
         }
 
-        public class ChatRoom : IChatRoomMediator
+        public class GroupChatMediator : IChatGroup
         {
-            private Dictionary<string, User> _users = new Dictionary<string, User>();
-
-            public void RegisterUser(User user)
+            public void AddUser(User user, GroupChat groupChat)
             {
-                if (!_users.ContainsKey(user.Name))
-                {
-                    _users.Add(user.Name, user);
-                }
+                groupChat.AddUser(user);
             }
 
-            public void SendMessage(string message, User user)
+            public void SendMessage(User user, GroupChat groupChat, string message)
             {
-                foreach (var u in _users.Values)
+                groupChat.SendMessage(user, message);
+            }
+        }
+
+        public interface IChatGroup
+        {
+            void AddUser(User user, GroupChat groupChat);
+
+            //kodom user to kodom chat mikhad che messagi ro befreste?
+            void SendMessage(User user, GroupChat groupChat, string message);
+        }
+
+        public class User
+        {
+            private string _name;
+            private List<GroupChat> _groupChats = new List<GroupChat>();
+
+            public User(string name)
+            {
+                _name = name;
+            }
+
+            public void JoinGroupChat(GroupChat groupChat, IChatGroup mediator)
+            {
+                mediator.AddUser(this, groupChat);
+            }
+
+            public void SendMessageGroupChat(GroupChat groupChat, IChatGroup mediator, string message)
+            {
+                mediator.SendMessage(this, groupChat, message);
+            }
+
+            public void ReceiveMessage(string message)
+            {
+                Console.WriteLine($"{_name} received {message}");
+            }
+        }
+
+        public class GroupChat
+        {
+            private string _name;
+            private List<User> _users = new List<User>();
+
+            public GroupChat(string name)
+            {
+                _name = name;
+            }
+
+            public void AddUser(User user)
+            {
+                _users.Add(user);
+            }
+
+            //baraye ki che chizi ersal she
+            public void SendMessage(User user, string message)
+            {
+                foreach (var u in _users)
                 {
                     if (u != user)
                     {
-                        u.Receive(message);
+                        u.ReceiveMessage(message);
                     }
                 }
             }
-        }
-
-        public abstract class User
-        {
-            protected IChatRoomMediator _chatRoom;
-            public User(string name, IChatRoomMediator chatRoom)
-            {
-                Name = name;
-                _chatRoom = chatRoom;
-            }
-
-            public string Name { get; set; }
-
-            public abstract void Send(string message);
-            public abstract void Receive(string message);
-        }
-
-        public class ChatUser : User
-        {
-            public ChatUser(string name, IChatRoomMediator chatRoom) : base(name, chatRoom)
-            {
-                
-            }
-
-            public override void Receive(string message)
-            {
-                Console.WriteLine($"{Name} {message}");
-            }
-
-            public override void Send(string message)
-            {
-                Console.WriteLine($"{Name} {message}");
-            }
-        }
-        
-
-        static void Main(string[] args)
-        {
-            IChatRoomMediator chatRoom = new ChatRoom();
-
-            User user1 = new ChatUser("Alice", chatRoom);
-            User user2 = new ChatUser("Bob", chatRoom);
-            User user3 = new ChatUser("Charlie", chatRoom);
-
-           ((ChatRoom)chatRoom).RegisterUser(user1);
-           ((ChatRoom)chatRoom).RegisterUser(user2);
-           ((ChatRoom)chatRoom).RegisterUser(user3);
-
-            user1.Send("Hello everyone");
-            user2.Send("Hi Alice !");
         }
     }
 }

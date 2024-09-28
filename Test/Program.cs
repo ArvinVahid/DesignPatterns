@@ -4,71 +4,93 @@ class Program
 {
     static void Main(string[] args)
     {
-        Composite root = new Composite("root");
-        root.Add(new Leaf("Leaf A"));
-        root.Add(new Leaf("Leaf B"));
-
-        Composite comp = new Composite("Composite X");
-        comp.Add(new Leaf("Leaf XA"));
-        comp.Add(new Leaf("Leaf XB"));
+        GroupChatMediator mediator = new GroupChatMediator();
         
-        root.Add(comp);
-        root.Add(new Leaf("Leaf C"));
-        Leaf leaf = new Leaf("Leaf D");
-        root.Add(leaf);
-        root.Remove(leaf);
+        GroupChat gp1 = new GroupChat("Group chat 1");
+        GroupChat gp2 = new GroupChat("Group chat 2");
 
-        root.Display(1);
-        Console.ReadKey();
-    }
-    
-    public interface Icomponent
-    {
-        void Display(int depth);
-    }
-    
-    public class Leaf:Icomponent
-    {
-        private String name = string.Empty;
-        public Leaf(string name)
-        {
-            this.name = name;
-        }
-
-        public void Display(int depth)
-        {
-            Console.WriteLine(new String('-', depth) + ' ' + name);
-        }
-    }
-    
-    public class Composite:Icomponent
-    {
-        private List<Icomponent> _children = new List<Icomponent>();
-        private String name = String.Empty;
-
-        public Composite(String sname)
-        {
-            this.name = sname;
-        }
-
-        public void Add(Icomponent component)
-        {
-            _children.Add(component);
-        }
-
-        public void Remove(Icomponent component)
-        {
-            _children.Remove(component);
-        }
+        User user1 = new User("Arvin");
+        User user2 = new User("Shahram");
+        User user3 = new User("Mohammad");
         
-        public void Display(int depth)
+        user1.JoinGroupChat(gp1, mediator);
+        user2.JoinGroupChat(gp1, mediator);
+        user2.JoinGroupChat(gp2, mediator);
+        user3.JoinGroupChat(gp2, mediator);
+        
+        user1.SendMessageGroupChat(gp1, mediator, "Salam");
+        user2.SendMessageGroupChat(gp1, mediator, "Hello");
+    }
+
+    public class GroupChatMediator : IChatGroup
+    {
+        public void AddUser(User user, GroupChat groupChat)
         {
-            Console.WriteLine(new String('-', depth) + ' ' + name);
-            foreach (Icomponent component in _children)
+            groupChat.AddUser(user);
+        }
+
+        public void SendMessage(User user, GroupChat groupChat, string message)
+        {
+            groupChat.SendMessage(user, message);
+        }
+    }
+    
+    public interface IChatGroup
+    {
+        void AddUser(User user, GroupChat groupChat);
+        
+        //kodom user to kodom chat mikhad che messagi ro befreste?
+        void SendMessage(User user, GroupChat groupChat, string message);
+    }
+    
+    public class User
+    {
+        private string _name;
+        private List<GroupChat> _groupChats = new List<GroupChat>();
+        public User(string name)
+        {
+            _name = name;
+        }
+
+        public void JoinGroupChat(GroupChat groupChat, IChatGroup mediator)
+        {
+            mediator.AddUser(this, groupChat);
+        }
+
+        public void SendMessageGroupChat(GroupChat groupChat, IChatGroup mediator, string message)
+        {
+            mediator.SendMessage(this,groupChat, message);
+        }
+
+        public void ReceiveMessage(string message)
+        {
+            Console.WriteLine($"{_name} received {message}");
+        }
+    }
+
+    public class GroupChat
+    {
+        private string _name;
+        private List<User> _users = new List<User>();
+        public GroupChat(string name)
+        {
+            _name = name;
+        }
+        public void AddUser(User user)
+        {
+            _users.Add(user);
+        }
+
+        //baraye ki che chizi ersal she
+        public void SendMessage(User user, string message)
+        {
+            foreach (var u in _users)
             {
-                component.Display(depth + 2);
+                if (u != user)
+                {
+                    u.ReceiveMessage(message);
+                }
             }
-
         }
     }
 }
