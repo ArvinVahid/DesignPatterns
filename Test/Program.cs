@@ -1,4 +1,4 @@
-﻿namespace CompositePattern;
+﻿namespace Test;
 
 class Program
 {

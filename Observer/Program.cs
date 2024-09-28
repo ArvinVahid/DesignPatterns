@@ -4,62 +4,113 @@ class Program
 {
     static void Main(string[] args)
     {
-        IWatcher police = new PoliceStation();
-        IWatcher fire = new FireStation();
-        IWatcher hosp = new HospitalStation();
-
         Alarm alarm = new Alarm();
-        alarm.AddTo(police);
-        alarm.AddTo(fire);
-        alarm.AddTo(hosp);
-        
+        alarm.Subscribe(new PoliceStation());
+        alarm.Subscribe(new FireStation());
+        alarm.Subscribe(new HospitalStation());
+
         alarm.Notify();
     }
 
-    public class Alarm
+    public class Alarm : IObservable<int>, IDisposable
     {
-        private readonly List<IWatcher> _watcher = new List<IWatcher>();
+        private readonly List<IObserver<int>> _watchers = new List<IObserver<int>>();
 
-        public void AddTo(IWatcher watcher)
+        public IDisposable Subscribe(IObserver<int> observer)
         {
-            _watcher.Add(watcher);
+            _watchers.Add(observer);
+            return this;
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+        private int i = 0;
 
         public void Notify()
         {
-            foreach (var w in _watcher)
+            if (i > 3)
             {
-                w.Alert();
+                foreach (var w in _watchers)
+                {
+                    w.OnCompleted();
+                }
+            }
+
+            foreach (var w in _watchers)
+            {
+                w.OnNext(i++);
             }
         }
     }
 
-    public interface IWatcher
-    {
-        void Alert();
-    }
-    
-    public class PoliceStation : IWatcher
+    public class PoliceStation : IObserver<int>
     {
         public void Alert()
         {
             Console.WriteLine($"{typeof(PoliceStation)} has alerted");
         }
+
+        public void OnCompleted()
+        {
+            Console.WriteLine($"{typeof(PoliceStation)} completed");
+        }
+
+        public void OnError(Exception error)
+        {
+            Console.WriteLine($"{typeof(PoliceStation)} error");
+        }
+
+        public void OnNext(int value)
+        {
+            Console.WriteLine($"{typeof(PoliceStation)} has next {value}");
+        }
     }
 
-    public class FireStation : IWatcher
+    public class FireStation : IObserver<int>
     {
         public void Alert()
         {
             Console.WriteLine($"{typeof(FireStation)} has alerted");
         }
+
+        public void OnCompleted()
+        {
+            Console.WriteLine($"{typeof(FireStation)} completed");
+        }
+
+        public void OnError(Exception error)
+        {
+            Console.WriteLine($"{typeof(FireStation)} error");
+        }
+
+        public void OnNext(int value)
+        {
+            Console.WriteLine($"{typeof(FireStation)} next {value}");
+        }
     }
 
-    public class HospitalStation : IWatcher
+    public class HospitalStation : IObserver<int>
     {
         public void Alert()
         {
             Console.WriteLine($"{typeof(HospitalStation)} has alerted");
+        }
+
+        public void OnCompleted()
+        {
+            Console.WriteLine($"{typeof(HospitalStation)} completed");
+        }
+
+        public void OnError(Exception error)
+        {
+            Console.WriteLine($"{typeof(HospitalStation)} error");
+        }
+
+        public void OnNext(int value)
+        {
+            Console.WriteLine($"{typeof(HospitalStation)} next {value}");
         }
     }
 }
